@@ -1,7 +1,0 @@
-[package]
-name = "chessmaster"
-version = "0.1.0"
-authors = ["Will Huiras <huirasw@ainfosec.com>"]
-edition = "2018"
-
-[dependencies]
