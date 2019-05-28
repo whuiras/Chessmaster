@@ -16,8 +16,9 @@ impl GamePiece {
         let piece:char = self.encode_piece();
         if !self.is_white() {
             print!("{}", piece.to_ascii_lowercase());
+        } else {
+            print!("{}", piece);
         }
-        print!("{}", piece);
     }
 
     fn is_white(self) -> bool {
