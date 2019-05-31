@@ -10,4 +10,15 @@ fn main() {
     state.print_board();
 }
 
+#[cfg(test)]
+mod test {
+    use crate::state::State;
 
+    #[test]
+    fn my_test() {
+        let state = State::new();
+
+        assert_eq!(4, 2 + 2);
+
+    }
+}
