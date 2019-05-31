@@ -1,6 +1,7 @@
 mod state;
 mod square;
 mod game_piece;
+mod chess_move;
 use crate::state::State;
 
 fn main() {

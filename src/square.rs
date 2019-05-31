@@ -2,8 +2,8 @@ use crate::game_piece::*;
 
 #[derive(PartialEq, Copy, Clone)]
 pub struct Square {
-    x: usize,
-    y: usize,
+    pub x: usize,
+    pub y: usize,
     pub game_piece: Option<GamePiece>
 }
 
