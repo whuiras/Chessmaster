@@ -1,19 +1,16 @@
 #[derive(PartialEq, Copy, Clone)]
 pub struct GamePiece {
     piece: Piece,
-    color: Color,
+    pub color: Color,
 }
 
 impl GamePiece {
     pub fn new(piece: Piece, color: Color) -> GamePiece {
-        GamePiece {
-            piece,
-            color,
-        }
+        GamePiece { piece, color }
     }
 
     pub fn print(self) {
-        let piece:char = self.encode_piece();
+        let piece: char = self.encode_piece();
         if !self.is_white() {
             print!("{}", piece.to_ascii_lowercase());
         } else {
@@ -38,7 +35,7 @@ impl GamePiece {
                 Piece::Knight => 'N',
                 Piece::Pawn => 'P',
             }
-        }
+        };
     }
 }
 

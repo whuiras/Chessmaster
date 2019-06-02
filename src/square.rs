@@ -4,7 +4,7 @@ use crate::game_piece::*;
 pub struct Square {
     pub x: usize,
     pub y: usize,
-    pub game_piece: Option<GamePiece>
+    pub game_piece: Option<GamePiece>,
 }
 
 impl Square {
@@ -18,8 +18,8 @@ impl Square {
 
     pub fn print(self) {
         match self.game_piece {
-            None    => print!("."),
-            Some(n) => n.print()
+            None => print!("."),
+            Some(n) => n.print(),
         }
     }
 }
