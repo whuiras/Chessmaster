@@ -1,6 +1,6 @@
 #[derive(PartialEq, Copy, Clone)]
 pub struct GamePiece {
-    piece: Piece,
+    pub piece: Piece,
     pub color: Color,
 }
 

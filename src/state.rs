@@ -58,20 +58,20 @@ impl State {
         &self,
         x0: usize,
         y0: usize,
-        dx: usize,
-        dy: usize,
-        color:Color,
+        dx: i8,
+        dy: i8,
+        color: Color,
         mut capture: Capture,
         mut stop_short: bool,
     ) -> Vec<ChessMove> {
         let mut x = x0;
         let mut y = y0;
         let target = self.board[x][y].game_piece;
-        let mut moves: Vec<ChessMove> = Vec::new();
+        let mut moves = Vec::new();
 
         'outer: while !stop_short {
-            x = x + dx;
-            y = y + dy;
+            x = x + dx as usize;
+            y = y + dy as usize;
             if !Self::in_bounds(x, y) {
                 break;
             }
@@ -96,6 +96,89 @@ impl State {
             let new_move = ChessMove::new(self.board[x0][y0], self.board[x][y]);
             moves.push(new_move)
         }
+        return moves;
+    }
+
+    fn symmscan(
+        &self,
+        x0: usize,
+        y0: usize,
+        mut dx: i8,
+        mut dy: i8,
+        color: Color,
+        mut capture: Capture,
+        mut stop_short: bool,
+    ) -> Vec<ChessMove> {
+        let mut moves: Vec<ChessMove> = Vec::new();
+
+        for i in 0..3 {
+            moves.append(&mut Self::movescan(
+                &self, x0, y0, dx, dy, color, capture, stop_short,
+            ));
+            std::mem::swap(&mut dx, &mut dy);
+            dy = dy * (-1);
+        }
+        return moves;
+    }
+
+    fn movelist(
+        &self,
+        x0: usize,
+        y0: usize,
+        mut dx: i8,
+        mut dy: i8,
+    ) -> Vec<ChessMove> {
+        let mut moves: Vec<ChessMove> = Vec::new();
+        let target = self.board[x0][y0].game_piece;
+        match target {
+            Some(GamePiece { piece: Piece::King, color}) => {
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 0, 1, color, Capture::True, true));
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 1, 1, color, Capture::True, true));
+            }
+            Some(GamePiece { piece: Piece::Queen, color }) => {
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 0, 1, color, Capture::True, false));
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 1, 1, color, Capture::True, false));
+            }
+            Some(GamePiece { piece: Piece::Rook, color }) => {
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 0, 1, color, Capture::True, false));
+            }
+            Some(GamePiece { piece: Piece::Bishop, color }) => {
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 1, 1, color, Capture::True, false));
+            }
+            Some(GamePiece { piece: Piece::Knight,color }) => {
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 1, 2, color, Capture::True, true));
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, -1, 2, color, Capture::True, true));
+            }
+            Some(GamePiece { piece: Piece::Pawn, color : Color::White }) => {
+                let dir = 1;
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, -1, dir, Color::White, Capture::Only, true));
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 1, dir, Color::White, Capture::Only, true));
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 0, dir, Color::White, Capture::False, true));
+            }
+            Some(GamePiece { piece: Piece::Pawn, color : Color::Black }) => {
+                let dir = -1;
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, -1, dir, Color::Black, Capture::Only, true));
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 1, dir, Color::Black, Capture::Only, true));
+                moves.append(&mut Self::movescan(
+                    &self, x0, y0, 0, dir, Color::Black, Capture::False, true));
+            }
+
+            None => print!("move list error")
+        }
+
         return moves;
     }
 

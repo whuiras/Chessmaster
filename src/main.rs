@@ -29,8 +29,10 @@ fn main() {
 
         let encoded: Vec<usize> = encode_move(input.to_string());
 
-        let player_move = ChessMove::new(state.board[encoded[0]][encoded[1]],
-                                         state.board[encoded[3]][encoded[4]]);
+        let player_move = ChessMove::new(
+            state.board[encoded[0]][encoded[1]],
+            state.board[encoded[3]][encoded[4]],
+        );
 
         print!("You did it!");
         break;
