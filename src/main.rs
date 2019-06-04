@@ -88,47 +88,38 @@ pub fn encode_letter(letter: char) -> i32 {
 
 #[cfg(test)]
 mod test {
-    use crate::chess_move::*;
     use crate::game_piece::*;
     use crate::state::State;
 
     #[test]
     fn my_test() {
-        let mut state = State::new();
+        println!("Testing board instantiation: ");
 
-
+        let state = State::new();
         state.print_board();
     }
 
     #[test]
-    fn test2() {
+    fn rook_test() {
         let mut state = State::new_none();
 
         state.board[2][2].game_piece = Some(GamePiece::new(Piece::Rook, Color::White));
+        state.board[2][3].game_piece = Some(GamePiece::new(Piece::Rook, Color::Black));
+
+        println!("Testing Rook movement: ");
 
         state.print_board();
 
         let moves = state.movelist(2, 2);
 
-        println!("moves length is: {}", moves.len());
-        print!("board[2][2] gamepiece is: ");
-        state.board[2][2].print();
         println!();
+        println!("Possible moves are: ");
 
         for move1 in moves {
             let mut new_state = state.clone();
             new_state.make_move(move1);
             new_state.print_board();
         }
-
-        /*
-        let player_move = ChessMove::new(
-            state.board[2][2],
-            state.board[0][1],
-        );
-        if !state.is_legal(player_move) {
-            print!("Illegal move\n");
-        }
-        */
     }
+
 }

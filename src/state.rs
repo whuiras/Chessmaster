@@ -53,27 +53,25 @@ impl State {
         let to = self.board[(chess_move.to_square.x as usize)][(chess_move.to_square.y as usize)]
             .game_piece;
 
-
         // check that the piece exists:
         match from {
-            Some(from_piece) => {
-                print!("From is: ");
-                from_piece.print();
-
+            Some(_from_piece) => {
                 match to {
                     // check if we are taking a piece
                     Some(to_piece) => self.taken.push(to_piece.encode_piece()),
                     None => {}
                 }
-                // Move the piece
-                self.board[(chess_move.to_square.x as usize)]
-                    [(chess_move.to_square.y as usize)]
-                    .game_piece =
-                    self.board[(chess_move.from_square.x as usize)]
+                // Move the piece //TODO: code this cleaner.
+                self.board[(chess_move.to_square.x as usize)][(chess_move.to_square.y as usize)]
+                    .game_piece = self.board[(chess_move.from_square.x as usize)]
                     [(chess_move.from_square.y as usize)]
                     .game_piece;
-                self.print_board();
-                println!("====================")
+
+                self.board[(chess_move.from_square.x as usize)]
+                    [(chess_move.from_square.y as usize)]
+                    .game_piece = None;
+
+                self.change_turn();
             }
             None => {
                 print!("move error");
@@ -100,7 +98,6 @@ impl State {
         'outer: while !stop_short {
             x = x + dx as i32;
             y = y + dy as i32;
-            println!("x is: {}, y is: {}", x, y);
             if !Self::in_bounds(x, y) {
                 break;
             }
@@ -143,7 +140,7 @@ impl State {
     ) -> Vec<ChessMove> {
         let mut moves: Vec<ChessMove> = Vec::new();
 
-        for _i in 0..3 {
+        for _i in 0..4 {
             moves.append(&mut Self::movescan(
                 &self, x0, y0, dx, dy, color, capture, stop_short,
             ));
@@ -398,7 +395,7 @@ impl State {
         let mut board = [[Square::new(0, 0); 6]; 5];
         for i in 0..5 {
             for j in 0..6 {
-                board[i][j] = Square::new((i as i32), (j as i32))
+                board[i][j] = Square::new(i as i32, j as i32)
             }
         }
         board[0][0].game_piece = Some(GamePiece::new(Piece::King, Color::White));
@@ -432,7 +429,7 @@ impl State {
         let mut board = [[Square::new(0, 0); 6]; 5];
         for i in 0..5 {
             for j in 0..6 {
-                board[i][j] = Square::new((i as i32), (j as i32));
+                board[i][j] = Square::new(i as i32, j as i32);
             }
         }
         return board;
@@ -444,7 +441,7 @@ impl State {
             print!("{} ", 6 - i);
             for j in 0..5 {
                 // Print backwards so board[0][0] can be the south-west corner
-                self.board[j][5-i].print();
+                self.board[j][5 - i].print();
             }
             println!();
         }

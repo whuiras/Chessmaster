@@ -13,6 +13,4 @@ impl ChessMove {
             from_square,
         }
     }
-
-
 }
