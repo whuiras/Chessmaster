@@ -2,13 +2,13 @@ use crate::game_piece::*;
 
 #[derive(PartialEq, Copy, Clone)]
 pub struct Square {
-    pub x: usize,
-    pub y: usize,
+    pub x: i32,
+    pub y: i32,
     pub game_piece: Option<GamePiece>,
 }
 
 impl Square {
-    pub fn new(x: usize, y: usize) -> Square {
+    pub fn new(x: i32, y: i32) -> Square {
         Square {
             x,
             y,

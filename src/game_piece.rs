@@ -25,7 +25,7 @@ impl GamePiece {
         return false;
     }
 
-    fn encode_piece(self) -> char {
+    pub fn encode_piece(self) -> char {
         return {
             match self.piece {
                 Piece::King => 'K',

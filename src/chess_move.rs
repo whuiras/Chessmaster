@@ -1,5 +1,6 @@
 use crate::square::*;
 
+#[derive(PartialEq)]
 pub struct ChessMove {
     pub to_square: Square,
     pub from_square: Square,
