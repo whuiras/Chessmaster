@@ -2,11 +2,13 @@ use crate::chess_move::*;
 use crate::game_piece::*;
 use crate::square::*;
 
+#[derive(Clone)]
 pub struct State {
     move_num: u64,
     taken: String,
     turn: char,
-    pub board: [[Square; 5]; 6],
+    // x = 5 and y = 6
+    pub board: [[Square; 6]; 5],
 }
 
 impl State {
@@ -51,20 +53,27 @@ impl State {
         let to = self.board[(chess_move.to_square.x as usize)][(chess_move.to_square.y as usize)]
             .game_piece;
 
+
         // check that the piece exists:
         match from {
             Some(from_piece) => {
+                print!("From is: ");
+                from_piece.print();
+
                 match to {
                     // check if we are taking a piece
                     Some(to_piece) => self.taken.push(to_piece.encode_piece()),
                     None => {}
                 }
                 // Move the piece
-                self.board[(chess_move.from_square.x as usize)]
-                    [(chess_move.from_square.y as usize)]
-                    .game_piece = self.board[(chess_move.to_square.x as usize)]
+                self.board[(chess_move.to_square.x as usize)]
                     [(chess_move.to_square.y as usize)]
+                    .game_piece =
+                    self.board[(chess_move.from_square.x as usize)]
+                    [(chess_move.from_square.y as usize)]
                     .game_piece;
+                self.print_board();
+                println!("====================")
             }
             None => {
                 print!("move error");
@@ -385,44 +394,44 @@ impl State {
         return true;
     }
 
-    pub fn init_board() -> [[Square; 5]; 6] {
-        let mut board = [[Square::new(0, 0); 5]; 6];
-        for i in 0..6 {
-            for j in 0..5 {
+    pub fn init_board() -> [[Square; 6]; 5] {
+        let mut board = [[Square::new(0, 0); 6]; 5];
+        for i in 0..5 {
+            for j in 0..6 {
                 board[i][j] = Square::new((i as i32), (j as i32))
             }
         }
         board[0][0].game_piece = Some(GamePiece::new(Piece::King, Color::White));
-        board[0][1].game_piece = Some(GamePiece::new(Piece::Queen, Color::White));
-        board[0][2].game_piece = Some(GamePiece::new(Piece::Bishop, Color::White));
-        board[0][3].game_piece = Some(GamePiece::new(Piece::Knight, Color::White));
-        board[0][4].game_piece = Some(GamePiece::new(Piece::Rook, Color::White));
+        board[1][0].game_piece = Some(GamePiece::new(Piece::Queen, Color::White));
+        board[2][0].game_piece = Some(GamePiece::new(Piece::Bishop, Color::White));
+        board[3][0].game_piece = Some(GamePiece::new(Piece::Knight, Color::White));
+        board[4][0].game_piece = Some(GamePiece::new(Piece::Rook, Color::White));
 
-        board[1][0].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
+        board[0][1].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
         board[1][1].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
-        board[1][2].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
-        board[1][3].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
-        board[1][4].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
+        board[2][1].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
+        board[3][1].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
+        board[4][1].game_piece = Some(GamePiece::new(Piece::Pawn, Color::White));
 
-        board[4][0].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
-        board[4][1].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
-        board[4][2].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
-        board[4][3].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
+        board[0][4].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
+        board[1][4].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
+        board[2][4].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
+        board[3][4].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
         board[4][4].game_piece = Some(GamePiece::new(Piece::Pawn, Color::Black));
 
-        board[5][0].game_piece = Some(GamePiece::new(Piece::King, Color::Black));
-        board[5][1].game_piece = Some(GamePiece::new(Piece::Queen, Color::Black));
-        board[5][2].game_piece = Some(GamePiece::new(Piece::Bishop, Color::Black));
-        board[5][3].game_piece = Some(GamePiece::new(Piece::Knight, Color::Black));
-        board[5][4].game_piece = Some(GamePiece::new(Piece::Rook, Color::Black));
+        board[0][5].game_piece = Some(GamePiece::new(Piece::King, Color::Black));
+        board[1][5].game_piece = Some(GamePiece::new(Piece::Queen, Color::Black));
+        board[2][5].game_piece = Some(GamePiece::new(Piece::Bishop, Color::Black));
+        board[3][5].game_piece = Some(GamePiece::new(Piece::Knight, Color::Black));
+        board[4][5].game_piece = Some(GamePiece::new(Piece::Rook, Color::Black));
 
         return board;
     }
 
-    pub fn init_none() -> [[Square; 5]; 6] {
-        let mut board = [[Square::new(0, 0); 5]; 6];
-        for i in 0..6 {
-            for j in 0..5 {
+    pub fn init_none() -> [[Square; 6]; 5] {
+        let mut board = [[Square::new(0, 0); 6]; 5];
+        for i in 0..5 {
+            for j in 0..6 {
                 board[i][j] = Square::new((i as i32), (j as i32));
             }
         }
@@ -435,7 +444,7 @@ impl State {
             print!("{} ", 6 - i);
             for j in 0..5 {
                 // Print backwards so board[0][0] can be the south-west corner
-                self.board[5 - i][j].print();
+                self.board[j][5-i].print();
             }
             println!();
         }

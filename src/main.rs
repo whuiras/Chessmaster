@@ -94,9 +94,8 @@ mod test {
 
     #[test]
     fn my_test() {
-        let mut state = State::new_none();
+        let mut state = State::new();
 
-        state.board[0][0].game_piece = Some(GamePiece::new(Piece::King, Color::White));
 
         state.print_board();
     }
@@ -117,8 +116,9 @@ mod test {
         println!();
 
         for move1 in moves {
-            state.make_move(move1);
-            state.print_board();
+            let mut new_state = state.clone();
+            new_state.make_move(move1);
+            new_state.print_board();
         }
 
         /*
