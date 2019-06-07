@@ -269,7 +269,7 @@ impl State {
                 color: Color::White,
             }) => {
                 let dir = 1;
-                moves.append(&mut Self::symmscan(
+                moves.append(&mut Self::movescan(
                     &self,
                     x0,
                     y0,
@@ -279,7 +279,7 @@ impl State {
                     Capture::Only,
                     true,
                 ));
-                moves.append(&mut Self::symmscan(
+                moves.append(&mut Self::movescan(
                     &self,
                     x0,
                     y0,
@@ -289,7 +289,7 @@ impl State {
                     Capture::Only,
                     true,
                 ));
-                moves.append(&mut Self::symmscan(
+                moves.append(&mut Self::movescan(
                     &self,
                     x0,
                     y0,
@@ -305,7 +305,7 @@ impl State {
                 color: Color::Black,
             }) => {
                 let dir = -1;
-                moves.append(&mut Self::symmscan(
+                moves.append(&mut Self::movescan(
                     &self,
                     x0,
                     y0,
@@ -315,7 +315,7 @@ impl State {
                     Capture::Only,
                     true,
                 ));
-                moves.append(&mut Self::symmscan(
+                moves.append(&mut Self::movescan(
                     &self,
                     x0,
                     y0,
@@ -325,7 +325,7 @@ impl State {
                     Capture::Only,
                     true,
                 ));
-                moves.append(&mut Self::symmscan(
+                moves.append(&mut Self::movescan(
                     &self,
                     x0,
                     y0,
@@ -350,7 +350,7 @@ impl State {
         return false;
     }
 
-    pub fn is_legal(&mut self, chess_move: ChessMove) -> bool {
+    pub fn is_legal(&mut self, chess_move: &ChessMove) -> bool {
         match chess_move.from_square.game_piece {
             // Check that the piece we are trying to move exists and is the correct color.
             Some(piece) => {
@@ -364,24 +364,15 @@ impl State {
         }
 
         let mut moves: Vec<ChessMove> = Vec::new();
-        for i in 0..6 {
-            for j in 0..5 {
+        for i in 0..5 {
+            for j in 0..6 {
                 moves.append(&mut Self::movelist(&self, i, j));
             }
         }
 
-        println!("number of possible moves is: {}", moves.len());
-
-        for move1 in moves {
-            &self.make_move(move1);
-            Self::print_board(&self);
+        if moves.contains(&chess_move) {
+            return true;
         }
-
-        /*
-              if moves.contains(&chess_move) {
-                  return true;
-              }
-        */
 
         return false;
     }
