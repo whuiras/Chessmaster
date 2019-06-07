@@ -97,6 +97,7 @@ mod test {
 
         let state = State::new();
         state.print_board();
+
     }
 
     #[test]
@@ -106,7 +107,34 @@ mod test {
         state.board[2][2].game_piece = Some(GamePiece::new(Piece::Rook, Color::White));
         state.board[2][3].game_piece = Some(GamePiece::new(Piece::Rook, Color::Black));
 
+        println!();
         println!("Testing Rook movement: ");
+
+        state.print_board();
+
+        let moves = state.movelist(2, 2);
+
+        println!();
+        println!("Possible moves are: ");
+
+
+        for move1 in moves {
+            let mut new_state = state.clone();
+            new_state.make_move(move1);
+            new_state.print_board();
+        }
+
+    }
+
+    #[test]
+    fn bishop_test() {
+        let mut state = State::new_none();
+
+        state.board[2][2].game_piece = Some(GamePiece::new(Piece::Bishop, Color::White));
+        state.board[3][3].game_piece = Some(GamePiece::new(Piece::Rook, Color::Black));
+
+        println!();
+        println!("Testing Bishop movement: ");
 
         state.print_board();
 
@@ -120,6 +148,7 @@ mod test {
             new_state.make_move(move1);
             new_state.print_board();
         }
+
     }
 
 }

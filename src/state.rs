@@ -95,7 +95,7 @@ impl State {
         let mut y = y0;
         let mut moves = Vec::new();
 
-        'outer: while !stop_short {
+        'outer: loop {
             x = x + dx as i32;
             y = y + dy as i32;
             if !Self::in_bounds(x, y) {
@@ -123,7 +123,12 @@ impl State {
                 self.board[(x0 as usize)][(y0 as usize)],
                 self.board[(x as usize)][(y as usize)],
             );
-            moves.push(new_move)
+            moves.push(new_move);
+
+            // Rust has no do while loops, so we use loop and check the condition at the end.
+            if stop_short {
+                break;
+            }
         }
         return moves;
     }
