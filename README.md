@@ -1,100 +1,156 @@
 # Chessmaster
 
-Chessmaster is a chess game for chess enthusiasts. 
-Players can play chess against an AI after connecting to a central server. 
-More specifically, players may start a new game and input moves to the game. 
+Will Huiras (c) 2019
+
+Chessmaster is a chess program where users can play minichess against eachother. 
+As this project was done in part to learn the idiosyncocies of Rust, there are a 
+few changes to teh rules of minichess: 
+* Pawns may only ever move one square at a time 
+(e.i. no moving two squares if previously unmoved)
+    * In turn, no en passant
+* No pawn promotions
+* No castling
+
 The game is responsible for setting up a new game, keeping track of past moves 
-and pieces taken, and making informed moves against the player. Additionally, 
-the program supports a console interface that displays the board and accepts input.
+and pieces taken, and making players moves. Additionally, the program supports 
+a console interface that displays the board and accepts input. It was written 
+following Bart Massey's how-to guide for minichess. It can be found here:
+http://wiki.cs.pdx.edu/mc-howto/index.html
 
 
 ##Usage:
 
-There are two types of accepted player input, creating a new game and making a move. 
-If the player is making a pawn promotion, they must enter in the piece they would 
-like to promote to a long with the move coordinates.
+Chessmaster automatically creates a new game on startup. Moves are inputted into the 
+game through traditional chess notation (e.g. a2-a3). Example use is as follows: 
 
 ```
-Input:
-“new game”
-Response:
+Welcome to Chessmaster
+Starting a new game: 
 
-New game created
+6 kqbnr
+5 ppppp
+4 .....
+3 .....
+2 PPPPP
+1 KQBNR
 
-  ABCDEFGH
+  abcde
 
-8 rnbqkbnr
-7 pppppppp
-6 ........
-5 ........
-4 ........
-3 ........
-2 PPPPPPPP
-1 RNBQKBNR
+Make a move
 
-  ABCDEFGH
+a2-a3
 
-Input:
-Move
-e2 e4
-Response:
+6 kqbnr
+5 ppppp
+4 .....
+3 P....
+2 .PPPP
+1 KQBNR
 
-  ABCDEFGH
+  abcde
 
-8 rnbqkbnr
-7 pppppppp
-6 ........
-5 ........
-4 ....P...
-3 ........
-2 PPPP.PPP
-1 RNBQKBNR
+Make a move
 
-  ABCDEFGH
+a5-a4
 
-  ABCDEFGH
+6 kqbnr
+5 .pppp
+4 p....
+3 P....
+2 .PPPP
+1 KQBNR
 
-8 r.bqkbnr
-7 pppppppp
-6 n.......
-5 ........
-4 ....P...
-3 ........
-2 PPPP.PPP
-1 RNBQKBNR
+  abcde
 
-  ABCDEFGH
+Make a move
 
-Input:
-Move
-a7 a8
-Queen
-Response:
+b2-b3
 
+6 kqbnr
+5 .pppp
+4 p....
+3 PP...
+2 ..PPP
+1 KQBNR
 
-  ABCDEFGH
+  abcde
 
-8 Q......k
-7 ........
-6 ........
-5 ........
-4 ........
-3 ........
-2 ........
-1 K.......
+Make a move
 
-  ABCDEFGH
+a4-b3
 
-  ABCDEFGH
+6 kqbnr
+5 .pppp
+4 .....
+3 Pp...
+2 ..PPP
+1 KQBNR
 
-8 Q.......
-7 .......k
-6 ........
-5 ........
-4 ........
-3 ........
-2 ........
-1 K.......
+  abcde
 
-  ABCDEFGH
+Make a move
+
+e2-e3
+
+6 kqbnr
+5 .pppp
+4 .....
+3 Pp..P
+2 ..PP.
+1 KQBNR
+
+  abcde
+
+Make a move
+
+fae
+Invalid input
+
+Make a move
+
+c2-c3
+Illegal move
+
+Make a move
+
+b3-b2
+
+6 kqbnr
+5 .pppp
+4 .....
+3 P...P
+2 .pPP.
+1 KQBNR
+
+  abcde
+
+Make a move
+
+c2-c3
+
+6 kqbnr
+5 .pppp
+4 .....
+3 P.P.P
+2 .p.P.
+1 KQBNR
+
+  abcde
+
+Make a move
+
+b2-a1
+
+6 kqbnr
+5 .pppp
+4 .....
+3 P.P.P
+2 ...P.
+1 pQBNR
+
+  abcde
+  
+Game Over!
 ```
+
+whuiras@pdx.edu
